@@ -74,20 +74,7 @@ function listEditor(actionCallback, initialName, rerenderCallback) {
   const actionButton = document.createElement("button");
   actionButton.textContent = initialName ? "Rename" : "Add";
   actionButton.addEventListener("click", () => {
-    const newName = input.value.trim();
-    if (newName !== "") {
-      if (initialName !== null) {
-        actionCallback(initialName, newName); // rename list
-      } else {
-        actionCallback(newName); // create new list
-      }
-      formDiv.remove();
-      isFormOpen = false;
-
-      if (rerenderCallback) {
-        rerenderCallback();
-      }
-    }
+    submitForm();
   });
 
   formDiv.appendChild(actionButton);
@@ -95,17 +82,45 @@ function listEditor(actionCallback, initialName, rerenderCallback) {
   const closeButton = document.createElement("button");
   closeButton.textContent = "Close";
   closeButton.addEventListener("click", () => {
-    formDiv.remove();
-    isFormOpen = false;
+    closeForm();
   });
 
   formDiv.appendChild(closeButton);
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      submitForm();
+    }
+  });
+
+  function submitForm() {
+    const newName = input.value.trim();
+    if (newName !== "") {
+      if (initialName !== null) {
+        actionCallback(initialName, newName); // rename list
+      } else {
+        actionCallback(newName); // create new list
+      }
+      closeForm();
+
+      if (rerenderCallback) {
+        rerenderCallback();
+      }
+    }
+  }
+
+  function closeForm() {
+    formDiv.remove();
+    isFormOpen = false;
+  }
 
   if (initialName) {
     listsDiv.appendChild(formDiv);
   } else {
     addListButton.parentElement.appendChild(formDiv);
   }
+
+  input.focus();
 }
 
 export { renderLists };

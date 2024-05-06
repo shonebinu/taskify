@@ -151,10 +151,10 @@ body {
 
 .list-form {
   margin: 1rem 0;
-  padding: 2rem 0;
+  padding: .5rem 0;
   border: none;
   border-radius: 3px;
-  padding: .5rem;
+  max-width: 100%;
 
   display: grid;
   grid-template-rows: auto auto;
@@ -163,7 +163,7 @@ body {
 
   input {
     grid-column: 1 / 3;
-    height: 1.5rem;
+    height: 1.7rem;
     border-radius: 3px;
     border: none;
     color: var(--font);
@@ -179,6 +179,7 @@ body {
     border-radius: 2px;
     font-size: .9rem;
     color: var(--font);
+    height: 1.7rem;
 
     &:hover {
       outline: 2px solid var(--sec-font);
