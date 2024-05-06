@@ -5,9 +5,13 @@ import renameSvg from "../assets/icons/rename-outline.svg";
 const listsDiv = document.querySelector(".lists");
 const addListButton = document.querySelector(".add-list");
 let isFormOpen = false;
+let selectedList = null;
+let selectedListChangeCallback = null;
 
 function renderLists(lists, addListCallback, renameListCallback, deleteListCallback) {
   listsDiv.innerHTML = "";
+
+  let firstList = null;
 
   lists.forEach((list) => {
     const containerDiv = document.createElement("div");
@@ -43,8 +47,32 @@ function renderLists(lists, addListCallback, renameListCallback, deleteListCallb
     containerDiv.appendChild(div);
     containerDiv.appendChild(iconDiv);
 
+    containerDiv.addEventListener("click", () => {
+      selectedList = list;
+      if (selectedListChangeCallback) {
+        selectedListChangeCallback(selectedList);
+      }
+      const listItems = listsDiv.querySelectorAll(".list");
+      listItems.forEach((item) => {
+        item.classList.remove("selected");
+      });
+      containerDiv.classList.add("selected");
+    });
+
     listsDiv.appendChild(containerDiv);
+
+    if (!firstList) {
+      firstList = containerDiv;
+    }
   });
+
+  if (firstList) {
+    firstList.classList.add("selected");
+    selectedList = lists[0];
+    if (selectedListChangeCallback) {
+      selectedListChangeCallback(selectedList);
+    }
+  }
 
   addListButton.addEventListener("click", () => {
     listEditor(addListCallback, null, () => {
@@ -123,4 +151,12 @@ function listEditor(actionCallback, initialName, rerenderCallback) {
   input.focus();
 }
 
-export { renderLists };
+function getSelectedList() {
+  return selectedList;
+}
+
+function setOnSelectedListChange(callback) {
+  selectedListChangeCallback = callback;
+}
+
+export { getSelectedList, renderLists, setOnSelectedListChange };

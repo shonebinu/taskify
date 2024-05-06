@@ -25,6 +25,7 @@
 :root {
   --bg: #E5E5E5;
   --sec-bg: #FAFAFA;
+  --third-bg: #A3A3A3;
   --font: #171717;
   --sec-font: #404040;
   --red: #FCA5A5;
@@ -57,6 +58,7 @@ body {
       h1 {
         font-weight: 700;
         font-size: 1.75rem;
+        padding-left: .5rem;
       }
 
       .logo {
@@ -76,7 +78,8 @@ body {
       h2 {
         font-weight: 500;
         font-size: 1.1rem;
-        color: var(--sec-font)
+        color: var(--sec-font);
+        padding-left: .5rem;
       }
     }
 
@@ -110,15 +113,22 @@ body {
 .lists {
   display: flex;
   flex-direction: column;
+  gap: .5rem;
 
   .list {
     display: flex;
     gap: 3rem;
     justify-content: space-between;
     border-radius: 10px;
+    padding-left: .5rem;
+    padding-right: .5rem;
 
     &:hover {
       cursor: pointer;
+      background: var(--bg);
+    }
+
+    &.selected {
       background: var(--bg);
     }
 
@@ -132,7 +142,7 @@ body {
         img {
           &:hover {
             cursor: pointer;
-            background: var(--bg);
+            background: var(--sec-bg);
             border-radius: 5px;
           }
         }
@@ -170,9 +180,11 @@ body {
     font-size: .9rem;
     padding-left: 7px;
     outline: 2px solid var(--bg);
+    font-family: inherit;
   }
 
   button {
+    font-family: inherit;
     padding: 4px 0;
     outline: 2px solid var(--bg);
     border: none;
@@ -185,5 +197,59 @@ body {
       outline: 2px solid var(--sec-font);
       cursor: pointer;
     }
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+
+  padding: 2rem 10rem;
+
+  >div:first-child {
+    display: flex;
+    height: min-content;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    h2 {
+      font-weight: 500;
+      color: var(--sec-font);
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+
+      background: none;
+      border: none;
+      height: 2.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--sec-font);
+      padding-right: 10px;
+
+      &:hover {
+        cursor: pointer;
+        color: var(--font);
+        outline: 2px solid var(--third-bg)
+      }
+
+      img {
+        width: 30px;
+      }
+    }
+  }
+
+  hr {
+    width: 100%;
+    border: none;
+    height: 2px;
+    background: var(--third-bg);
+    border-radius: 5px;
+    margin-top: 0;
   }
 }
