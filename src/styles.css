@@ -1,0 +1,188 @@
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik-regular-webfont.woff2') format('woff2'),
+    url('./assets/fonts/rubik-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik-medium-webfont.woff2') format('woff2'),
+    url('./assets/fonts/rubik-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik-bold-webfont.woff2') format('woff2'),
+    url('./assets/fonts/rubik-bold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --bg: #E5E5E5;
+  --sec-bg: #FAFAFA;
+  --font: #171717;
+  --sec-font: #404040;
+  --red: #FCA5A5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Rubik";
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--font);
+
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+
+  >aside {
+    background: var(--sec-bg);
+    padding: 1rem;
+
+    >div:has(h1) {
+      display: flex;
+      align-items: baseline;
+      justify-content: start;
+
+      h1 {
+        font-weight: 700;
+        font-size: 1.75rem;
+      }
+
+      .logo {
+        width: 3rem;
+        fill: var(--red);
+      }
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      background: var(--bg);
+      border-radius: 5px;
+    }
+
+    >section {
+      h2 {
+        font-weight: 500;
+        font-size: 1.1rem;
+        color: var(--sec-font)
+      }
+    }
+
+    .add-list {
+      border: none;
+      background: var(--bg);
+      width: 100%;
+      height: 2.75rem;
+      border-radius: 10px;
+      border: 3px transparent;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: var(--sec-font);
+      }
+
+      &:hover {
+        cursor: pointer;
+        border: 3px solid var(--sec-font);
+      }
+    }
+  }
+}
+
+
+.lists {
+  display: flex;
+  flex-direction: column;
+
+  .list {
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background: var(--bg);
+    }
+
+    div {
+      display: flex;
+      gap: .5rem;
+
+      &:last-child {
+        gap: 1rem;
+
+        img {
+          &:hover {
+            cursor: pointer;
+            background: var(--bg);
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+      fill: red;
+      stroke: red;
+      align-self: center
+    }
+  }
+}
+
+.list-form {
+  margin: 1rem 0;
+  padding: 2rem 0;
+  border: none;
+  border-radius: 3px;
+  padding: .5rem;
+
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto;
+  gap: .5rem;
+
+  input {
+    grid-column: 1 / 3;
+    height: 1.5rem;
+    border-radius: 3px;
+    border: none;
+    color: var(--font);
+    font-size: .9rem;
+    padding-left: 7px;
+    outline: 2px solid var(--bg);
+  }
+
+  button {
+    padding: 4px 0;
+    outline: 2px solid var(--bg);
+    border: none;
+    border-radius: 2px;
+    font-size: .9rem;
+    color: var(--font);
+
+    &:hover {
+      outline: 2px solid var(--sec-font);
+      cursor: pointer;
+    }
+  }
+}
