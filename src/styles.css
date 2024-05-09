@@ -42,4 +42,119 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--fg);
+
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+svg {
+  pointer-events: none;
+}
+
+.sidebar {
+  background: var(--bg-2);
+
+  .logo-container {
+    display: flex;
+    align-items: baseline;
+    gap: .75rem;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0;
+    }
+
+    svg {
+      fill: var(--red);
+      width: 4rem;
+    }
+  }
+
+  .task-bar {
+    >button {
+      all: unset;
+      display: flex;
+      align-items: center;
+      font-size: 1.1rem;
+    }
+
+    .add-task {
+      fill: var(--red);
+      font-weight: 500;
+      gap: .5rem;
+
+      svg {
+        width: 2rem;
+      }
+    }
+  }
+
+  .list-bar {
+    svg {
+      fill: var(--bg-3);
+      width: 1.9rem;
+    }
+
+    h3 {
+      font-weight: 500;
+      font-size: 1.3rem;
+      color: var(--fg-2);
+    }
+
+    .lists {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+
+      .list {
+        display: flex;
+        justify-content: space-between;
+
+        font-size: 1.2rem;
+        border-radius: 10px;
+
+        &:hover {
+          cursor: pointer;
+          background: var(--bg)
+        }
+
+        >div {
+          display: flex;
+          align-items: center;
+          gap: .3rem;
+        }
+
+        >div:last-child>span:hover {
+          svg {
+            fill: var(--fg-2);
+          }
+        }
+      }
+    }
+
+    .add-list-btn {
+      width: 100%;
+      border: none;
+      padding: 5px;
+      background: var(--bg);
+      border-radius: 10px;
+
+      svg {
+        width: 2.5rem;
+        fill: var(--fg-2);
+      }
+    }
+  }
+
+  hr {
+    margin: 1rem 0;
+    border: none;
+    height: 3px;
+    background: var(--bg);
+  }
 }

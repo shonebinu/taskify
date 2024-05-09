@@ -11,19 +11,29 @@ const localStorageAPI = function() {
     }
   };
 
-  const getData = () => {
+  const getListData = () => {
     return JSON.parse(localStorage.getItem("lists")) || [];
   };
 
-  const setData = (lists) => {
+  const setListData = (lists) => {
     localStorage.setItem("lists", JSON.stringify(lists));
+  };
+
+  const getArchiveData = () => {
+    return JSON.parse(localStorage.getItem("archives")) || [];
+  };
+
+  const setArchiveData = (archives) => {
+    localStorage.setItem("archives", JSON.stringify(archives));
   };
 
   initializeData();
 
   return {
-    getData,
-    setData,
+    getListData,
+    setListData,
+    getArchiveData,
+    setArchiveData,
   };
 }();
 

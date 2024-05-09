@@ -6,7 +6,7 @@ function generateUniqueId() {
 
 const listsManager = function() {
   const getAllLists = () => {
-    return localStorageAPI.getData();
+    return localStorageAPI.getListData();
   };
 
   const isNameUnique = (name, lists) => {
@@ -27,7 +27,7 @@ const listsManager = function() {
     const lists = getAllLists();
     const uniqueName = getUniqueName(name, lists);
     lists.push({ id: generateUniqueId(), name: uniqueName, tasks: [] });
-    localStorageAPI.setData(lists);
+    localStorageAPI.setListData(lists);
   };
 
   const renameList = (listId, newName) => {
@@ -36,7 +36,7 @@ const listsManager = function() {
     if (currentList) {
       const uniqueName = getUniqueName(newName, lists.filter(list => list.id !== listId));
       currentList.name = uniqueName;
-      localStorageAPI.setData(lists);
+      localStorageAPI.setListData(lists);
     }
   };
 
@@ -46,7 +46,7 @@ const listsManager = function() {
     if (listIndex !== -1) {
       lists.splice(listIndex, 1);
     }
-    localStorageAPI.setData(lists);
+    localStorageAPI.setListData(lists);
   };
 
   return {
