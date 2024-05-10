@@ -1,12 +1,6 @@
 import Icons from "../assets/icons/icons";
 import listsManager from "../dataHandlers/listsManager";
 
-function renderSvg(svg) {
-  const svgContainer = document.createElement("span");
-  svgContainer.innerHTML = svg;
-  return svgContainer;
-}
-
 const listController = function() {
   const listsBar = document.querySelector(".list-bar");
 
@@ -39,18 +33,18 @@ const listController = function() {
   };
 
   const renderList = (list) => {
-    const containerDiv = document.createElement("div");
+    const containerDiv = document.createElement("button");
     const nameContainer = document.createElement("div");
     const renameAndDeleteContainer = document.createElement("div");
 
     const listNameP = document.createElement("p");
     listNameP.textContent = list.name;
 
-    nameContainer.appendChild(renderSvg(Icons.folderPoundOutline));
+    nameContainer.appendChild(Icons.folderPoundOutline);
     nameContainer.appendChild(listNameP);
 
-    const renameSvg = renderSvg(Icons.renameOutline);
-    const deleteSvg = renderSvg(Icons.deleteOutline);
+    const renameSvg = Icons.renameOutline;
+    const deleteSvg = Icons.deleteOutline;
     renameAndDeleteContainer.appendChild(renameSvg);
     renameAndDeleteContainer.appendChild(deleteSvg);
 
@@ -65,7 +59,9 @@ const listController = function() {
   const renderAddListButton = () => {
     const button = document.createElement("button");
     button.classList.add("add-list-btn");
-    button.appendChild(renderSvg(Icons.plusCircle));
+
+    button.appendChild(Icons.plusCircle);
+
     return button;
   };
 

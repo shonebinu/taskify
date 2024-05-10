@@ -44,12 +44,22 @@ body {
   color: var(--fg);
 
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 4.5fr;
 }
 
 button,
 input {
   font-family: inherit;
+}
+
+button {
+  all: unset;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 svg {
@@ -58,6 +68,7 @@ svg {
 
 .sidebar {
   background: var(--bg-2);
+  padding: 1.5rem;
 
   .logo-container {
     display: flex;
@@ -76,19 +87,25 @@ svg {
   }
 
   .task-bar {
-    >button {
-      all: unset;
+
+    .add-task-btn {
+      width: 100%;
+      font-weight: 500;
+      font-size: 1.2rem;
+      background: var(--bg);
+      padding: 0 10px;
+      border-radius: 10px;
+
       display: flex;
       align-items: center;
-      font-size: 1.1rem;
-    }
-
-    .add-task {
-      fill: var(--red);
-      font-weight: 500;
       gap: .5rem;
 
+      &:hover {
+        outline: 3px solid var(--bg-3);
+      }
+
       svg {
+        fill: var(--red);
         width: 2rem;
       }
     }
@@ -112,6 +129,7 @@ svg {
       gap: .5rem;
 
       .list {
+        padding: 0 10px;
         display: flex;
         justify-content: space-between;
 
@@ -119,7 +137,6 @@ svg {
         border-radius: 10px;
 
         &:hover {
-          cursor: pointer;
           background: var(--bg)
         }
 
@@ -138,11 +155,19 @@ svg {
     }
 
     .add-list-btn {
+      margin-top: .5rem;
       width: 100%;
-      border: none;
       padding: 5px;
       background: var(--bg);
       border-radius: 10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        outline: 3px solid var(--bg-3);
+      }
 
       svg {
         width: 2.5rem;
