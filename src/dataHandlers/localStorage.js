@@ -19,21 +19,11 @@ const localStorageAPI = function() {
     localStorage.setItem("lists", JSON.stringify(lists));
   };
 
-  const getArchiveData = () => {
-    return JSON.parse(localStorage.getItem("archives")) || [];
-  };
-
-  const setArchiveData = (archives) => {
-    localStorage.setItem("archives", JSON.stringify(archives));
-  };
-
   initializeData();
 
   return {
     getListData,
     setListData,
-    getArchiveData,
-    setArchiveData,
   };
 }();
 

@@ -19,6 +19,9 @@ const taskSideBarController = function() {
     const todayTasksButton = renderTodayTasks(tasksManager.getAllTodaysTasks().length);
     taskGroupingContainer.appendChild(todayTasksButton);
 
+    const overdueTasksButton = renderOverdueTasks(tasksManager.getAllOverdueTasks().length);
+    taskGroupingContainer.appendChild(overdueTasksButton);
+
     tasksBar.appendChild(taskGroupingContainer);
   };
 
@@ -65,6 +68,11 @@ const taskSideBarController = function() {
   const renderTodayTasks = (numberOfTasks) => {
     const todayTasksButton = renderTaskGroupingButtons(Icons.today, "Today", numberOfTasks);
     return todayTasksButton;
+  };
+
+  const renderOverdueTasks = (numberOfTasks) => {
+    const overdueTasksButton = renderTaskGroupingButtons(Icons.overdue, "Overdue", numberOfTasks);
+    return overdueTasksButton;
   };
 
   return {

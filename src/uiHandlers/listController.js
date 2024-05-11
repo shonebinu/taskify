@@ -12,8 +12,12 @@ const listController = function() {
 
     const lists = listsManager.getAllLists();
 
-    const listsView = renderLists(lists);
-    listsBar.appendChild(listsView);
+    if (isNoLists()) {
+      renderNoListsWarning();
+    } else {
+      const listsView = renderLists(lists);
+      listsBar.appendChild(listsView);
+    }
 
     const addListButton = renderAddListButton();
     listsBar.appendChild(addListButton);
@@ -53,6 +57,23 @@ const listController = function() {
 
     containerDiv.classList.add("list");
 
+    containerDiv.dataset.listId = list.id;
+
+    renameSvg.addEventListener("click", () => {
+      const listId = containerDiv.dataset.listId;
+      renderRenameListForm(listId);
+    });
+
+    deleteSvg.addEventListener("click", () => {
+      const listId = containerDiv.dataset.listId;
+      const listName = list.name;
+      const confirmDelete = confirm(`Are you sure you want to delete the list "${listName}"?`);
+      if (confirmDelete) {
+        listsManager.deleteList(listId);
+        render();
+      }
+    });
+
     return containerDiv;
   };
 
@@ -62,7 +83,106 @@ const listController = function() {
 
     button.appendChild(Icons.plusCircle);
 
+    button.addEventListener("click", () => {
+      renderAddListForm();
+    });
+
     return button;
+  };
+
+  const renderAddListForm = () => {
+    if (document.querySelector(".add-list-form")) {
+      return;
+    }
+
+    const container = document.createElement("form");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Enter list name";
+
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      container.remove();
+    });
+
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add";
+    addButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      const newListName = input.value.trim();
+      if (newListName) {
+        listsManager.addList(newListName);
+        render();
+      }
+      input.value = "";
+      container.remove();
+    });
+
+    container.classList.add("add-list-form");
+
+    container.appendChild(input);
+    container.appendChild(cancelButton);
+    container.appendChild(addButton);
+
+    listsBar.appendChild(container);
+  };
+
+  const renderRenameListForm = (listId) => {
+    const existingForm = document.querySelector(`.rename-list-form[data-list-id="${listId}"]`);
+    if (existingForm) {
+      return;
+    }
+
+    const container = document.createElement("form");
+    container.classList.add("add-list-form");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Enter new list name";
+
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      container.remove();
+    });
+
+    const renameButton = document.createElement("button");
+    renameButton.textContent = "Rename";
+    renameButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      const newListName = input.value.trim();
+      if (newListName) {
+        listsManager.renameList(listId, newListName);
+        render();
+      }
+      input.value = "";
+      container.remove();
+    });
+
+    container.classList.add("rename-list-form");
+    container.dataset.listId = listId;
+
+    container.appendChild(input);
+    container.appendChild(cancelButton);
+    container.appendChild(renameButton);
+
+    const listButton = document.querySelector(`.list[data-list-id="${listId}"]`);
+    listButton.parentNode.insertBefore(container, listButton.nextSibling);
+  };
+
+  const isNoLists = () => {
+    return listsManager.getAllLists().length === 0;
+  };
+
+  const renderNoListsWarning = () => {
+    const warningMessage = document.createElement("p");
+    warningMessage.textContent = "You should have at least one list to save tasks.";
+    warningMessage.classList.add("list-empty-warning");
+    listsBar.appendChild(warningMessage);
   };
 
   return {
