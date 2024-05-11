@@ -109,6 +109,46 @@ svg {
         width: 2rem;
       }
     }
+
+    .task-grouping {
+      margin: .75rem 0;
+
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+
+      button {
+        width: 100%;
+        padding: 0 10px;
+        border-radius: 10px;
+
+        display: flex;
+        justify-content: space-between;
+
+        &:hover {
+          background: var(--bg);
+        }
+
+        div {
+          display: flex;
+          align-items: center;
+          gap: .4rem;
+        }
+
+        svg {
+          fill: var(--bg-3);
+          width: 2rem;
+        }
+
+        p {
+          font-size: 1.2rem;
+        }
+
+        >p:last-child {
+          color: var(--bg-3);
+        }
+      }
+    }
   }
 
   .list-bar {
@@ -126,7 +166,7 @@ svg {
     .lists {
       display: flex;
       flex-direction: column;
-      gap: .5rem;
+      gap: .3rem;
 
       .list {
         padding: 0 10px;
