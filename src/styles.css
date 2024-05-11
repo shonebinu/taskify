@@ -76,13 +76,13 @@ svg {
     gap: .75rem;
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 0;
     }
 
     svg {
       fill: var(--red);
-      width: 4rem;
+      width: 3rem;
     }
   }
 
@@ -91,7 +91,7 @@ svg {
     .add-task-btn {
       width: 100%;
       font-weight: 500;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background: var(--bg);
       padding: 0 10px;
       border-radius: 10px;
@@ -106,7 +106,7 @@ svg {
 
       svg {
         fill: var(--red);
-        width: 2rem;
+        width: 1.7rem;
       }
     }
 
@@ -141,7 +141,7 @@ svg {
         }
 
         p {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
         }
 
         >p:last-child {
@@ -154,7 +154,7 @@ svg {
   .list-bar {
     svg {
       fill: var(--bg-3);
-      width: 1.9rem;
+      width: 1.7rem;
     }
 
     h3 {
@@ -173,7 +173,7 @@ svg {
         display: flex;
         justify-content: space-between;
 
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         border-radius: 10px;
 
         &:hover {
