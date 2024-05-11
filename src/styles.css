@@ -44,7 +44,7 @@ body {
   color: var(--fg);
 
   display: grid;
-  grid-template-columns: 1fr 4.5fr;
+  grid-template-columns: 1fr 5fr;
 }
 
 button,
@@ -76,13 +76,12 @@ svg {
     gap: .75rem;
 
     h1 {
-      font-size: 2rem;
       margin-bottom: 0;
     }
 
     svg {
       fill: var(--red);
-      width: 3rem;
+      width: 2.5rem;
     }
   }
 
@@ -91,7 +90,6 @@ svg {
     .add-task-btn {
       width: 100%;
       font-weight: 500;
-      font-size: 1.1rem;
       background: var(--bg);
       padding: 0 10px;
       border-radius: 10px;
@@ -106,12 +104,12 @@ svg {
 
       svg {
         fill: var(--red);
-        width: 1.7rem;
+        width: 1.75rem;
       }
     }
 
     .task-grouping {
-      margin: .75rem 0;
+      margin: .5rem 0;
 
       display: flex;
       flex-direction: column;
@@ -138,10 +136,6 @@ svg {
         svg {
           fill: var(--bg-3);
           width: 2rem;
-        }
-
-        p {
-          font-size: 1.1rem;
         }
 
         >p:last-child {
@@ -173,7 +167,6 @@ svg {
         display: flex;
         justify-content: space-between;
 
-        font-size: 1.1rem;
         border-radius: 10px;
 
         &:hover {
@@ -210,7 +203,7 @@ svg {
       }
 
       svg {
-        width: 2.5rem;
+        width: 2rem;
         fill: var(--fg-2);
       }
     }
