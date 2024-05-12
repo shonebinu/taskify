@@ -121,6 +121,13 @@ const listController = function() {
       container.remove();
     });
 
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addButton.click();
+      }
+    });
+
     container.classList.add("add-list-form");
 
     container.appendChild(input);
@@ -131,13 +138,13 @@ const listController = function() {
   };
 
   const renderRenameListForm = (listId) => {
-    const existingForm = document.querySelector(`.rename-list-form[data-list-id="${listId}"]`);
+    const existingForm = document.querySelector(`.rename-list-form`);
     if (existingForm) {
-      return;
+      existingForm.remove();
     }
 
     const container = document.createElement("form");
-    container.classList.add("add-list-form");
+    container.classList.add("rename-list-form");
 
     const input = document.createElement("input");
     input.type = "text";
@@ -161,6 +168,13 @@ const listController = function() {
       }
       input.value = "";
       container.remove();
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        renameButton.click();
+      }
     });
 
     container.classList.add("rename-list-form");
