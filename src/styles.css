@@ -29,7 +29,7 @@
   --fg: #171717;
   --fg-2: #404040;
   --red: #FCA5A5;
-  --svg-width-sidebar: 28px;
+  --svg-width-sidebar: 25px;
 }
 
 * {
@@ -253,4 +253,8 @@ svg {
     height: 3px;
     background: var(--bg);
   }
+}
+
+.selected {
+  background: var(--bg);
 }

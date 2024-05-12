@@ -74,6 +74,11 @@ const listController = function() {
       }
     });
 
+    containerDiv.addEventListener("click", () => {
+      document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
+      containerDiv.classList.add("selected");
+    });
+
     return containerDiv;
   };
 

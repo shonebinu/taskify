@@ -57,21 +57,30 @@ const taskSideBarController = function() {
 
     containerBtn.appendChild(numberOfTasksP);
 
+    containerBtn.addEventListener("click", () => {
+      document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
+      containerBtn.classList.add("selected");
+    });
+
     return containerBtn;
   };
 
   const renderAllTasksButton = (numberOfTasks) => {
     const allTaskButton = renderTaskGroupingButtons(Icons.allTask, "All tasks", numberOfTasks);
+    allTaskButton.dataset.taskGrouping = "0";
+    allTaskButton.classList.add("selected");
     return allTaskButton;
   };
 
   const renderTodayTasks = (numberOfTasks) => {
     const todayTasksButton = renderTaskGroupingButtons(Icons.today, "Today", numberOfTasks);
+    todayTasksButton.dataset.taskGrouping = "1";
     return todayTasksButton;
   };
 
   const renderOverdueTasks = (numberOfTasks) => {
     const overdueTasksButton = renderTaskGroupingButtons(Icons.overdue, "Overdue", numberOfTasks);
+    overdueTasksButton.dataset.taskGrouping = "2";
     return overdueTasksButton;
   };
 
@@ -80,4 +89,7 @@ const taskSideBarController = function() {
   };
 }();
 
-export { taskSideBarController };
+const taskController = function() {
+}();
+
+export { taskController, taskSideBarController };
