@@ -96,17 +96,24 @@ const taskController = function() {
   const render = () => {
     tasksContainer.innerHTML = "";
     const selected = document.querySelector(".selected");
+    const taskGroupMapping = {
+      "Today": tasksManager.getAllTodaysTasks,
+      "Overdue": tasksManager.getAllOverdueTasks,
+      "All tasks": tasksManager.getAllTasks,
+    };
     let name = undefined;
+    let tasksFromList = undefined;
 
     if (selected.dataset.listName) {
       name = selected.dataset.listName;
+      tasksFromList = tasksManager.getAllTaskFromList(selected.dataset.listId);
     } else {
       name = selected.dataset.taskGrouping;
+      tasksFromList = taskGroupMapping[name]();
     }
 
     const header = renderHeader(name);
 
-    const tasksFromList = tasksManager.getAllTaskFromList(selected.dataset.listId);
     const tasksRender = renderTasks(tasksFromList);
 
     tasksContainer.appendChild(header);
@@ -134,6 +141,7 @@ const taskController = function() {
 
   const renderTask = (task) => {
     const div = document.createElement("div");
+    div.classList.add("task");
 
     const title = document.createElement("p");
     title.textContent = task.title;
