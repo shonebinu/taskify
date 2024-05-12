@@ -275,3 +275,60 @@ main {
     background: var(--bg-3);
   }
 }
+
+div:has(>.task) {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.task {
+  display: flex;
+  gap: 1rem;
+
+  background: var(--bg-2);
+  border-radius: 5px;
+  padding-left: 1rem;
+  outline: 1px solid var(--bg-3);
+
+  input {
+    accent-color: #86efac;
+    transform: scale(1.4);
+  }
+
+  .task-desc {
+
+    >p:first-child {
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: var(--bg-3);
+      margin-bottom: 0;
+    }
+
+    >p:nth-child(2) {
+      font-size: .9rem;
+      color: var(--fg-2);
+    }
+  }
+
+  &.high {
+    border-right: 10px solid var(--red);
+  }
+
+  &.medium {
+    border-right: 10px solid #fdba74;
+  }
+
+  &.low {
+    border-right: 10px solid var(--bg-3);
+  }
+}
+
+/* edit button, */
+/* tick off todo, */
+/* due date, using date-fns */
+/* listname */
+/* change raw color to vars */
+/* when removing a task, my list selection changes */
+/* reload the tasksContainer when list is removed, renamed */
+/* when deleted, change to today tasks */

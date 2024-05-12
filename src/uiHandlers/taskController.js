@@ -93,14 +93,21 @@ const taskSideBarController = function() {
 const taskController = function() {
   const tasksContainer = document.querySelector("main > div");
 
+  const taskGroupMapping = {
+    "Today": tasksManager.getAllTodaysTasks,
+    "Overdue": tasksManager.getAllOverdueTasks,
+    "All tasks": tasksManager.getAllTasks,
+  };
+
+  const priorityMapping = {
+    "1": "low",
+    "2": "medium",
+    "3": "high",
+  };
+
   const render = () => {
     tasksContainer.innerHTML = "";
     const selected = document.querySelector(".selected");
-    const taskGroupMapping = {
-      "Today": tasksManager.getAllTodaysTasks,
-      "Overdue": tasksManager.getAllOverdueTasks,
-      "All tasks": tasksManager.getAllTasks,
-    };
     let name = undefined;
     let tasksFromList = undefined;
 
@@ -142,16 +149,26 @@ const taskController = function() {
   const renderTask = (task) => {
     const div = document.createElement("div");
     div.classList.add("task");
+    div.classList.add(priorityMapping[task.priority]);
 
-    const title = document.createElement("p");
-    title.textContent = task.title;
+    const input = document.createElement("input");
+    input.type = "checkbox";
 
-    const details = document.createElement("p");
-    details.textContent = task.details;
+    input.addEventListener("click", () => {
+      tasksManager.removeTaskFromList(task.id);
+      taskSideBarController.render();
+      render();
+    });
 
-    div.appendChild(title);
-    div.appendChild(details);
-    div.innerHTML = div.innerHTML + "<hr>";
+    const taskDescDiv = document.createElement("div");
+    taskDescDiv.classList.add("task-desc");
+    taskDescDiv.innerHTML = `
+      <p>${task.title}</p>
+      <p>${task.details}</p>
+    `;
+
+    div.appendChild(input);
+    div.appendChild(taskDescDiv);
 
     return div;
   };
