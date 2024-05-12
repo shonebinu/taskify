@@ -45,7 +45,7 @@ body {
   color: var(--fg);
 
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 4fr;
 }
 
 button,
@@ -257,4 +257,20 @@ svg {
 
 .selected {
   background: var(--bg);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+
+  >div {
+    margin-top: 1rem;
+    width: 70%;
+  }
+
+  hr {
+    border: none;
+    height: 2px;
+    background: var(--bg-3);
+  }
 }

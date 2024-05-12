@@ -1,5 +1,6 @@
 import Icons from "../assets/icons/icons";
 import listsManager from "../dataHandlers/listsManager";
+import { taskController } from "./taskController";
 
 const listController = function() {
   const listsBar = document.querySelector(".list-bar");
@@ -58,6 +59,7 @@ const listController = function() {
     containerDiv.classList.add("list");
 
     containerDiv.dataset.listId = list.id;
+    containerDiv.dataset.listName = list.name;
 
     renameSvg.addEventListener("click", () => {
       const listId = containerDiv.dataset.listId;
@@ -77,6 +79,7 @@ const listController = function() {
     containerDiv.addEventListener("click", () => {
       document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
       containerDiv.classList.add("selected");
+      taskController.render();
     });
 
     return containerDiv;
