@@ -1,6 +1,7 @@
 import Icons from "../assets/icons/icons";
 import listsManager from "../dataHandlers/listsManager";
-import { taskController } from "./taskController";
+import localStorageAPI from "../dataHandlers/localStorage";
+import { taskController, taskSideBarController } from "./taskController";
 
 const listController = function() {
   const listsBar = document.querySelector(".list-bar");
@@ -61,24 +62,39 @@ const listController = function() {
     containerDiv.dataset.listId = list.id;
     containerDiv.dataset.listName = list.name;
 
-    renameSvg.addEventListener("click", () => {
+    renameSvg.addEventListener("click", (e) => {
+      e.stopPropagation();
       const listId = containerDiv.dataset.listId;
       renderRenameListForm(listId);
     });
 
-    deleteSvg.addEventListener("click", () => {
+    deleteSvg.addEventListener("click", (e) => {
+      e.stopPropagation();
       const listId = containerDiv.dataset.listId;
       const listName = list.name;
       const confirmDelete = confirm(`Are you sure you want to delete the list "${listName}"?`);
       if (confirmDelete) {
+        if (localStorageAPI.getListState().name === listName) {
+          localStorageAPI.setListState({ list: false, name: "Today", id: null });
+        }
+
         listsManager.deleteList(listId);
+        taskSideBarController.render();
+        taskController.render();
         render();
+
+        console.log(localStorageAPI.getListState());
       }
     });
 
     containerDiv.addEventListener("click", () => {
       document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
       containerDiv.classList.add("selected");
+      localStorageAPI.setListState({
+        list: true,
+        name: containerDiv.dataset.listName,
+        id: containerDiv.dataset.listId,
+      });
       taskController.render();
     });
 

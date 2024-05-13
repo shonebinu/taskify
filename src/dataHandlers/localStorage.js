@@ -88,11 +88,21 @@ const localStorageAPI = function() {
     localStorage.setItem("lists", JSON.stringify(lists));
   };
 
+  const getListState = () => {
+    return JSON.parse(localStorage.getItem("listState"));
+  };
+
+  const setListState = (obj) => {
+    localStorage.setItem("listState", JSON.stringify(obj));
+  };
+
   initializeData();
 
   return {
     getListData,
     setListData,
+    getListState,
+    setListState,
   };
 }();
 

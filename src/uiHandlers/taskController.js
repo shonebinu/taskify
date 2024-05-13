@@ -1,5 +1,8 @@
 import Icons from "../assets/icons/icons";
+import localStorageAPI from "../dataHandlers/localStorage";
 import tasksManager from "../dataHandlers/tasksManager";
+
+localStorageAPI.setListState({ list: false, name: "Today", id: null });
 
 const taskSideBarController = function() {
   const tasksBar = document.querySelector(".task-bar");
@@ -60,6 +63,11 @@ const taskSideBarController = function() {
     containerBtn.addEventListener("click", () => {
       document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
       containerBtn.classList.add("selected");
+      localStorageAPI.setListState({
+        list: false,
+        name: containerBtn.dataset.taskGrouping,
+        id: null,
+      });
       taskController.render();
     });
 
@@ -69,7 +77,9 @@ const taskSideBarController = function() {
   const renderTodayTasks = (numberOfTasks) => {
     const todayTasksButton = renderTaskGroupingButtons(Icons.today, "Today", numberOfTasks);
     todayTasksButton.dataset.taskGrouping = "Today";
-    todayTasksButton.classList.add("selected");
+    if (localStorageAPI.getListState().name === "Today") {
+      todayTasksButton.classList.add("selected");
+    }
     return todayTasksButton;
   };
 
@@ -107,19 +117,16 @@ const taskController = function() {
 
   const render = () => {
     tasksContainer.innerHTML = "";
-    const selected = document.querySelector(".selected");
-    let name = undefined;
+    const selectedList = localStorageAPI.getListState();
     let tasksFromList = undefined;
 
-    if (selected.dataset.listName) {
-      name = selected.dataset.listName;
-      tasksFromList = tasksManager.getAllTaskFromList(selected.dataset.listId);
+    if (selectedList.list) {
+      tasksFromList = tasksManager.getAllTaskFromList(selectedList.id);
     } else {
-      name = selected.dataset.taskGrouping;
-      tasksFromList = taskGroupMapping[name]();
+      tasksFromList = taskGroupMapping[selectedList.name]();
     }
 
-    const header = renderHeader(name);
+    const header = renderHeader(selectedList.name);
 
     const tasksRender = renderTasks(tasksFromList);
 
@@ -155,9 +162,11 @@ const taskController = function() {
     input.type = "checkbox";
 
     input.addEventListener("click", () => {
-      tasksManager.removeTaskFromList(task.id);
-      taskSideBarController.render();
-      render();
+      setTimeout(() => {
+        tasksManager.removeTaskFromList(task.id);
+        taskSideBarController.render();
+        render();
+      }, 100);
     });
 
     const taskDescDiv = document.createElement("div");
