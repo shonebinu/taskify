@@ -295,6 +295,31 @@ main {
       transform: scale(1.4);
     }
 
+    div:has(>.task-desc) {
+      display: grid;
+      grid-template-columns: minmax(auto, 70%) 15% auto;
+      align-items: center;
+      gap: 1rem;
+
+      width: 100%;
+      padding-right: 3%;
+      color: var(--fg-2);
+      font-size: .95rem;
+
+      >div:nth-last-child(2) {
+        text-decoration: underline;
+
+        &:hover {
+          cursor: pointer;
+          font-size: .96rem;
+        }
+      }
+
+      >div:last-child {
+        flex-shrink: 0;
+      }
+    }
+
     .task-desc {
 
       >p:first-child {
@@ -302,6 +327,8 @@ main {
         text-decoration: underline;
         text-decoration-color: var(--bg-3);
         margin-bottom: 0;
+        color: var(--fg);
+        font-size: initial;
       }
 
       >p:nth-child(2) {
@@ -325,17 +352,74 @@ main {
 
 }
 
-/* edit button, */
-/* due date, using date-fns */
-/* listname */
+#addTaskModal {
+  background: var(--bg-2);
+  border: 3px solid var(--bg-3);
+  border-radius: 10px;
+  width: max(500px, 40%);
 
-/* reload the tasksContainer when list is renamed */
-/* state changing when removed list is not in focus */
+  display: flex;
+  justify-content: center;
 
-/* modal for add task */
+  form {
+    display: flex;
+    flex-direction: column;
 
-/* module to render the whole page*/
+    gap: 1rem;
+    width: 70%;
 
-/* module to handle the state */
+    padding: 1rem;
 
-/* only implement what the odin project said */
+    h2 {
+      margin: 0;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    >div {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    >div:has(>button) {
+      display: flex;
+      flex-direction: row;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      button {
+        width: 100%;
+        padding: 1rem;
+        background: var(--bg);
+        border-radius: 10px;
+
+        &:hover {
+          outline: 3px solid var(--bg-3);
+        }
+      }
+    }
+
+    input,
+    select {
+      height: 2rem;
+      font-size: 1rem;
+      border: none;
+      outline: 2px solid var(--bg-3);
+      border-radius: 3px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    textarea {
+      height: 5rem;
+      font-size: 1rem;
+      border: none;
+      outline: 2px solid var(--bg-3);
+      border-radius: 3px;
+      padding-left: 3px;
+      font-family: inherit;
+      padding: 5px 10px;
+    }
+  }
+}

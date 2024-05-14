@@ -9,6 +9,11 @@ const listsManager = function() {
     return localStorageAPI.getListData();
   };
 
+  const getNameFromId = (id) => {
+    const list = getAllLists().find(list => list.id === id);
+    return list.name;
+  };
+
   const isNameUnique = (name, lists) => {
     return !lists.some(list => list.name === name);
   };
@@ -50,6 +55,7 @@ const listsManager = function() {
   };
 
   return {
+    getNameFromId,
     getAllLists,
     addList,
     renameList,
