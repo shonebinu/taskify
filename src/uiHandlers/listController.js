@@ -1,7 +1,7 @@
 import Icons from "../assets/icons/icons";
 import listsManager from "../dataHandlers/listsManager";
 import localStorageAPI from "../dataHandlers/localStorage";
-import { taskController, taskSideBarController } from "./taskController";
+import stateController from "./stateController";
 
 const listController = function() {
   const listsBar = document.querySelector(".list-bar");
@@ -79,9 +79,7 @@ const listController = function() {
         }
 
         listsManager.deleteList(listId);
-        taskSideBarController.render();
-        taskController.render();
-        render();
+        stateController.render();
 
         console.log(localStorageAPI.getListState());
       }
@@ -95,7 +93,7 @@ const listController = function() {
         name: containerDiv.dataset.listName,
         id: containerDiv.dataset.listId,
       });
-      taskController.render();
+      stateController.render();
     });
 
     return containerDiv;
@@ -139,7 +137,7 @@ const listController = function() {
       const newListName = input.value.trim();
       if (newListName) {
         listsManager.addList(newListName);
-        render();
+        stateController.render();
       }
       input.value = "";
       container.remove();
@@ -188,7 +186,7 @@ const listController = function() {
       const newListName = input.value.trim();
       if (newListName) {
         listsManager.renameList(listId, newListName);
-        render();
+        stateController.render();
       }
       input.value = "";
       container.remove();

@@ -1,8 +1,4 @@
-import listController from "./uiHandlers/listController";
-import { taskSideBarController } from "./uiHandlers/taskController";
-import { taskController } from "./uiHandlers/taskController";
 import "./styles.css";
+import stateController from "./uiHandlers/stateController";
 
-listController.render();
-taskSideBarController.render();
-taskController.render();
+stateController.render();

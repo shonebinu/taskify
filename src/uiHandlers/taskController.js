@@ -1,6 +1,7 @@
 import Icons from "../assets/icons/icons";
 import localStorageAPI from "../dataHandlers/localStorage";
 import tasksManager from "../dataHandlers/tasksManager";
+import stateController from "./stateController";
 
 localStorageAPI.setListState({ list: false, name: "Today", id: null });
 
@@ -68,7 +69,7 @@ const taskSideBarController = function() {
         name: containerBtn.dataset.taskGrouping,
         id: null,
       });
-      taskController.render();
+      stateController.render();
     });
 
     return containerBtn;
@@ -164,8 +165,7 @@ const taskController = function() {
     input.addEventListener("click", () => {
       setTimeout(() => {
         tasksManager.removeTaskFromList(task.id);
-        taskSideBarController.render();
-        render();
+        stateController.render();
       }, 100);
     });
 

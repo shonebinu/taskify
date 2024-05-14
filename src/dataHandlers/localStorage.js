@@ -14,7 +14,7 @@ const DEFAULT_LISTS_DATA = [
         listId: "1",
         title: "Finish Report",
         details: "Complete the quarterly report for the team meeting.",
-        dueDate: "2024-05-10",
+        dueDate: "2024-05-13",
         priority: 2,
       },
       {
@@ -92,8 +92,8 @@ const localStorageAPI = function() {
     return JSON.parse(localStorage.getItem("listState"));
   };
 
-  const setListState = (obj) => {
-    localStorage.setItem("listState", JSON.stringify(obj));
+  const setListState = (state) => {
+    localStorage.setItem("listState", JSON.stringify(state));
   };
 
   initializeData();

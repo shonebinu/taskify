@@ -1,24 +1,21 @@
 import localStorageAPI from "../dataHandlers/localStorage";
+import listController from "./listController";
+import { taskController, taskSideBarController } from "./taskController";
 
-const stateController = () => {
-  const getState = () => {
-    return localStorageAPI.getListState();
-  };
-
-  const setState = (state) => {
-    localStorageAPI.setListState(state);
-  };
-
-  const selectElement = (element) => {
-    document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
-    element.classList.add("selected");
+const stateController = function() {
+  const render = () => {
+    listController.render();
+    taskController.render();
+    taskSideBarController.render();
   };
 
   return {
-    getState,
-    setState,
-    selectElement,
+    render,
   };
-};
+}();
+
+// state module should control render,
+// every side bar content should have id.
+// state will select them based on id {id:, name:, list: false}
 
 export default stateController;
