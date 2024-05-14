@@ -1,6 +1,5 @@
 import Icons from "../assets/icons/icons";
 import listsManager from "../dataHandlers/listsManager";
-import localStorageAPI from "../dataHandlers/localStorage";
 import stateController from "./stateController";
 
 const listController = function() {
@@ -74,24 +73,19 @@ const listController = function() {
       const listName = list.name;
       const confirmDelete = confirm(`Are you sure you want to delete the list "${listName}"?`);
       if (confirmDelete) {
-        if (localStorageAPI.getListState().name === listName) {
-          localStorageAPI.setListState({ list: false, name: "Today", id: null });
+        if (stateController.getState().name === listName) {
+          stateController.setState({ list: false, name: "Today", id: "today" });
         }
-
         listsManager.deleteList(listId);
         stateController.render();
-
-        console.log(localStorageAPI.getListState());
       }
     });
 
     containerDiv.addEventListener("click", () => {
-      document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
-      containerDiv.classList.add("selected");
-      localStorageAPI.setListState({
+      stateController.setState({
         list: true,
-        name: containerDiv.dataset.listName,
-        id: containerDiv.dataset.listId,
+        name: list.name,
+        id: list.id,
       });
       stateController.render();
     });
@@ -181,11 +175,17 @@ const listController = function() {
 
     const renameButton = document.createElement("button");
     renameButton.textContent = "Rename";
+
     renameButton.addEventListener("click", (event) => {
       event.preventDefault();
       const newListName = input.value.trim();
       if (newListName) {
         listsManager.renameList(listId, newListName);
+        stateController.setState({
+          list: true,
+          name: newListName,
+          id: listId,
+        });
         stateController.render();
       }
       input.value = "";

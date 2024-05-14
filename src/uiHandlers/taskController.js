@@ -1,9 +1,6 @@
 import Icons from "../assets/icons/icons";
-import localStorageAPI from "../dataHandlers/localStorage";
 import tasksManager from "../dataHandlers/tasksManager";
 import stateController from "./stateController";
-
-localStorageAPI.setListState({ list: false, name: "Today", id: null });
 
 const taskSideBarController = function() {
   const tasksBar = document.querySelector(".task-bar");
@@ -62,12 +59,10 @@ const taskSideBarController = function() {
     containerBtn.appendChild(numberOfTasksP);
 
     containerBtn.addEventListener("click", () => {
-      document.querySelectorAll(".selected").forEach(node => node.classList.remove("selected"));
-      containerBtn.classList.add("selected");
-      localStorageAPI.setListState({
+      stateController.setState({
         list: false,
         name: containerBtn.dataset.taskGrouping,
-        id: null,
+        id: containerBtn.getAttribute("id"),
       });
       stateController.render();
     });
@@ -78,21 +73,21 @@ const taskSideBarController = function() {
   const renderTodayTasks = (numberOfTasks) => {
     const todayTasksButton = renderTaskGroupingButtons(Icons.today, "Today", numberOfTasks);
     todayTasksButton.dataset.taskGrouping = "Today";
-    if (localStorageAPI.getListState().name === "Today") {
-      todayTasksButton.classList.add("selected");
-    }
+    todayTasksButton.setAttribute("id", "today");
     return todayTasksButton;
   };
 
   const renderOverdueTasks = (numberOfTasks) => {
     const overdueTasksButton = renderTaskGroupingButtons(Icons.overdue, "Overdue", numberOfTasks);
     overdueTasksButton.dataset.taskGrouping = "Overdue";
+    overdueTasksButton.setAttribute("id", "overdue");
     return overdueTasksButton;
   };
 
   const renderAllTasksButton = (numberOfTasks) => {
     const allTaskButton = renderTaskGroupingButtons(Icons.allTask, "All tasks", numberOfTasks);
     allTaskButton.dataset.taskGrouping = "All tasks";
+    allTaskButton.setAttribute("id", "all-tasks");
     return allTaskButton;
   };
 
@@ -105,9 +100,9 @@ const taskController = function() {
   const tasksContainer = document.querySelector("main > div");
 
   const taskGroupMapping = {
-    "Today": tasksManager.getAllTodaysTasks,
-    "Overdue": tasksManager.getAllOverdueTasks,
-    "All tasks": tasksManager.getAllTasks,
+    "today": tasksManager.getAllTodaysTasks,
+    "overdue": tasksManager.getAllOverdueTasks,
+    "all-tasks": tasksManager.getAllTasks,
   };
 
   const priorityMapping = {
@@ -118,13 +113,13 @@ const taskController = function() {
 
   const render = () => {
     tasksContainer.innerHTML = "";
-    const selectedList = localStorageAPI.getListState();
+    const selectedList = stateController.getState();
     let tasksFromList = undefined;
 
     if (selectedList.list) {
       tasksFromList = tasksManager.getAllTaskFromList(selectedList.id);
     } else {
-      tasksFromList = taskGroupMapping[selectedList.name]();
+      tasksFromList = taskGroupMapping[selectedList.id]();
     }
 
     const header = renderHeader(selectedList.name);
