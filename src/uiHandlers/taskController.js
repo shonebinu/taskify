@@ -1,4 +1,6 @@
+import { formatDistance, parseISO } from "date-fns";
 import Icons from "../assets/icons/icons";
+import listsManager from "../dataHandlers/listsManager";
 import tasksManager from "../dataHandlers/tasksManager";
 import stateController from "./stateController";
 
@@ -37,7 +39,90 @@ const taskSideBarController = function() {
     p.textContent = "Add task";
     button.appendChild(p);
 
+    button.addEventListener("click", () => {
+      createModal();
+      const modal = document.getElementById("addTaskModal");
+      modal.showModal();
+    });
+
     return button;
+  };
+
+  const createModal = () => {
+    const dialog = document.createElement("dialog");
+    dialog.id = "addTaskModal";
+
+    const form = document.createElement("form");
+
+    const getListOptions = () => {
+      const lists = listsManager.getAllLists();
+      return lists.map(list => `<option value=${list.id}>${list.name}</option>`).join("");
+    };
+
+    form.innerHTML = `
+      <h2>Add task</h2>
+      <div>
+        <label>Title:</label>
+        <input type=text name=title>  
+      </div>
+      <div>
+        <label>Details:</label>
+        <textarea name=details></textarea>
+      </div>
+      <div>
+        <label>Due Date:</label>
+        <input type=date name=due>
+      </div>
+      <div>
+        <label>Priority:</label>
+        <select name=priority>
+          <option value="1">Low</option>
+          <option value="2">Medium</option>
+          <option value="3">High</option>
+        </select>
+      </div>
+      <div>
+        <label>List:</label>
+        <select name=list>
+          ${getListOptions()}
+        </select>
+      </div>
+    `;
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      dialog.close();
+      dialog.remove();
+    });
+
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add";
+    addButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      const listId = form.querySelector("[name=list]").value;
+      const title = form.querySelector("[name=title]").value;
+      const details = form.querySelector("[name=details]").value;
+      const dueDate = form.querySelector("[name=due]").value;
+      const priority = form.querySelector("[name=priority]").value;
+
+      tasksManager.addTaskToList(listId, title, details, dueDate, priority);
+
+      dialog.close();
+      dialog.remove();
+      stateController.render();
+    });
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.appendChild(closeButton);
+    buttonContainer.appendChild(addButton);
+
+    form.appendChild(buttonContainer);
+
+    dialog.appendChild(form);
+
+    document.body.appendChild(dialog);
   };
 
   const renderTaskGroupingButtons = (svg, text, no) => {
@@ -164,6 +249,8 @@ const taskController = function() {
       }, 100);
     });
 
+    const descDiv = document.createElement("div");
+
     const taskDescDiv = document.createElement("div");
     taskDescDiv.classList.add("task-desc");
     taskDescDiv.innerHTML = `
@@ -171,8 +258,22 @@ const taskController = function() {
       <p>${task.details}</p>
     `;
 
+    const listName = document.createElement("div");
+    listName.addEventListener("click", () => {
+      stateController.setState({ list: true, name: listsManager.getNameFromId(task.listId), id: task.listId });
+      stateController.render();
+    });
+    listName.textContent = listsManager.getNameFromId(task.listId);
+
+    const dateDiv = document.createElement("div");
+    dateDiv.textContent = formatDistance(parseISO(task.dueDate), new Date(), { addSuffix: true });
+
+    descDiv.appendChild(taskDescDiv);
+    descDiv.appendChild(listName);
+    descDiv.appendChild(dateDiv);
+
     div.appendChild(input);
-    div.appendChild(taskDescDiv);
+    div.appendChild(descDiv);
 
     return div;
   };
