@@ -297,7 +297,7 @@ main {
 
     div:has(>.task-desc) {
       display: grid;
-      grid-template-columns: minmax(auto, 70%) 15% auto;
+      grid-template-columns: minmax(auto, 65%) 15% 20%;
       align-items: center;
       gap: 1rem;
 
@@ -335,6 +335,14 @@ main {
         font-size: .9rem;
         color: var(--fg-2);
       }
+
+      &:hover {
+        cursor: pointer;
+
+        >p:first-child {
+          text-decoration-color: var(--fg-2);
+        }
+      }
     }
 
     &.high {
@@ -352,7 +360,8 @@ main {
 
 }
 
-#addTaskModal {
+#addTaskModal,
+#editTaskModal {
   background: var(--bg-2);
   border: 3px solid var(--bg-3);
   border-radius: 10px;

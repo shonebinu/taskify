@@ -40,6 +40,10 @@ const taskSideBarController = function() {
     button.appendChild(p);
 
     button.addEventListener("click", () => {
+      if (listsManager.getAllLists().length === 0) {
+        alert("Create a list");
+        return;
+      }
       createModal();
       const modal = document.getElementById("addTaskModal");
       modal.showModal();
@@ -60,6 +64,7 @@ const taskSideBarController = function() {
     };
 
     form.innerHTML = `
+
       <h2>Add task</h2>
       <div>
         <label>Title:</label>
@@ -258,15 +263,26 @@ const taskController = function() {
       <p>${task.details}</p>
     `;
 
+    taskDescDiv.addEventListener("click", () => {
+      openEditModal(task);
+      const editModal = document.querySelector("#editTaskModal");
+      editModal.showModal();
+    });
+
     const listName = document.createElement("div");
-    listName.addEventListener("click", () => {
+    listName.addEventListener("click", (e) => {
+      e.stopPropagation();
       stateController.setState({ list: true, name: listsManager.getNameFromId(task.listId), id: task.listId });
       stateController.render();
     });
     listName.textContent = listsManager.getNameFromId(task.listId);
 
     const dateDiv = document.createElement("div");
-    dateDiv.textContent = formatDistance(parseISO(task.dueDate), new Date(), { addSuffix: true });
+    if (task.dueDate) {
+      dateDiv.textContent = formatDistance(parseISO(task.dueDate), new Date(), { addSuffix: true });
+    } else {
+      dateDiv.textContent = "No Due Date";
+    }
 
     descDiv.appendChild(taskDescDiv);
     descDiv.appendChild(listName);
@@ -276,6 +292,81 @@ const taskController = function() {
     div.appendChild(descDiv);
 
     return div;
+  };
+
+  const openEditModal = (task) => {
+    const dialog = document.createElement("dialog");
+    dialog.id = "editTaskModal";
+
+    const form = document.createElement("form");
+
+    const getListOptions = () => {
+      const lists = listsManager.getAllLists();
+      return lists.map(list =>
+        `<option value="${list.id}" ${list.id === task.listId ? "selected" : ""}>${list.name}</option>`
+      ).join("");
+    };
+
+    form.innerHTML = `
+        <h2>Edit Task</h2>
+        <div>
+            <label>Title:</label>
+            <input type="text" name="title" value="${task.title}">
+        </div>
+        <div>
+            <label>Details:</label>
+            <textarea name="details">${task.details}</textarea>
+        </div>
+        <div>
+            <label>Due Date:</label>
+            <input type="date" name="due" value="${task.dueDate}">
+        </div>
+        <div>
+            <label>Priority:</label>
+            <select name="priority">
+                <option value="1" ${task.priority === 1 ? "selected" : ""}>Low</option>
+                <option value="2" ${task.priority === 2 ? "selected" : ""}>Medium</option>
+                <option value="3" ${task.priority === 3 ? "selected" : ""}>High</option>
+            </select>
+        </div>
+        <div>
+          <label>List:</label>
+          <select name="list">
+            ${getListOptions(task.listId)}
+          </select>
+        </div>
+        <div>
+            <button id="cancelEditBtn">Cancel</button>
+            <button id="editTaskBtn">Update</button>
+        </div>
+    `;
+
+    form.querySelector("#editTaskBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const listId = form.querySelector("[name=list]").value;
+      const title = form.querySelector("[name=title]").value;
+      const details = form.querySelector("[name=details]").value;
+      const dueDate = form.querySelector("[name=due]").value;
+      const priority = form.querySelector("[name=priority]").value;
+
+      tasksManager.removeTaskFromList(task.id);
+
+      tasksManager.addTaskToList(listId, title, details, dueDate, priority);
+
+      dialog.close();
+      dialog.remove();
+      stateController.render();
+    });
+
+    form.querySelector("#cancelEditBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      dialog.close();
+      dialog.remove();
+    });
+
+    dialog.appendChild(form);
+    document.body.appendChild(dialog);
   };
 
   return { render };

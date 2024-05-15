@@ -93,14 +93,6 @@ const tasksManager = function() {
     localStorageAPI.setListData(lists);
   };
 
-  const editTaskOfList = (taskId, task) => {
-    const lists = localStorageAPI.getListData();
-    const currentList = findListFromTaskId(lists, taskId);
-    const taskIndex = findTaskIndex(currentList, taskId);
-    currentList.tasks.splice(taskIndex, 1, task);
-    localStorageAPI.setListData(lists);
-  };
-
   const removeTaskFromList = (taskId) => {
     const lists = localStorageAPI.getListData();
     const currentList = findListFromTaskId(lists, taskId);
@@ -115,7 +107,6 @@ const tasksManager = function() {
     getAllOverdueTasks,
     getAllTaskFromList,
     addTaskToList,
-    editTaskOfList,
     removeTaskFromList,
   };
 }();
